@@ -33,6 +33,10 @@
 #define encoderInV 8 // input venstre
 #define encoderInH 9 // input højre 
 
+// Pingben
+#define trigPin 7
+#define echoPin 6
+
 // Venstre motor benforbindelser
 #define MOTOR_L_PWM 11 // PIN D11 --> MOTOR B+ / PWM Speed (IA2) GUL
 #define MOTOR_L_DIR 13 // PIN D13 --> MOTOR B  / Retning (IB2) ORANGE
@@ -64,6 +68,8 @@ int newStateH;      // Højre - Ny status
 int counterV;       // Tæller flanker fra venstre encoder
 int counterH;       // Tæller flanker fra højre encoder
 
+int pingState = 0;
+
                                                    //=============== SETUP
 void setup() {
   // Init forbindelse til seriel monitor
@@ -84,6 +90,11 @@ void setup() {
   // Init encoder
   pinMode(encoderInV, INPUT); //Sæt ben 8 som input
   pinMode(encoderInH, INPUT); //Sæt ben 9 som input
+
+  // Init ping
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
   
 }
 
@@ -124,14 +135,18 @@ void measureRMP() {
     bias = (counterV - counterH);
   }
   //bias = 20;
-  
+  /*
   Serial.print("Cnt1: ");  
   Serial.print(counterV);
   Serial.print(" \tCnt2: ");  
   Serial.print(counterH);
   Serial.print(" \tBias: ");
   Serial.println(bias);
-  
+  /*/
+
+  //bias = (bias + 1) * 2;
+  bias = (bias * 3) + 10;
+  //*/
   if (counterV == 20) {
     counterV = 0;
     counterH = 0;
@@ -209,8 +224,54 @@ void speed(int speedL, int speedR, int mDir) {
   analogWrite( MOTOR_R_PWM, speedR );           
 }
 
+                                          //======================== PING STATE
+// function getPingState måler afstand og returnerer pingState
+//int getPingState() {
+void getPingState() {
+
+  long duration, distance;
+  digitalWrite(trigPin, LOW);  // Added this line
+  delayMicroseconds(2); // Added this line
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10); // Added this line
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration/2) / 29.1;
+  Serial.print(distance);
+  Serial.println(" cm");
+  delay(500); 
+  //if (distance < 4) {  // This is where the LED On/Off happens
+ 
+  /*
+  //local variables:
+  long duration;
+  int cm = 0;
+
+  // activate a ping
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+
+  // get distance in cm
+  pinMode(pingPin, INPUT);
+  duration = pulseIn(pingPin, HIGH); // tid til ekko registreres
+  cm = duration / 29 / 2;
+
+  // evaluate to state
+  pingState = 0;
+  if (cm <= 10 ){ pingState = 1; }
+  if (cm > 10 && cm < 25){ pingState = 2; }
+  
+  return pingState;
+*/  
+} // end function getPingState  
+
                                                   //MAIN
 void loop() {
-  runREW();
-  measureRMP();
+  //runREW();
+  //measureRMP();
+  getPingState();
 }
