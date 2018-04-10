@@ -226,8 +226,8 @@ void speed(int speedL, int speedR, int mDir) {
 
                                           //======================== PING STATE
 // function getPingState måler afstand og returnerer pingState
-//int getPingState() {
-void getPingState() {
+int getPingState() {
+//void getPingState() {
 
   long duration, distance;
   digitalWrite(trigPin, LOW);  // Added this line
@@ -239,31 +239,11 @@ void getPingState() {
   distance = (duration/2) / 29.1;
   Serial.print(distance);
   Serial.println(" cm");
-  delay(500); 
-  //if (distance < 4) {  // This is where the LED On/Off happens
- 
-  /*
-  //local variables:
-  long duration;
-  int cm = 0;
-
-  // activate a ping
-  pinMode(pingPin, OUTPUT);
-  digitalWrite(pingPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(pingPin, HIGH);
-  delayMicroseconds(5);
-  digitalWrite(pingPin, LOW);
-
-  // get distance in cm
-  pinMode(pingPin, INPUT);
-  duration = pulseIn(pingPin, HIGH); // tid til ekko registreres
-  cm = duration / 29 / 2;
 
   // evaluate to state
   pingState = 0;
-  if (cm <= 10 ){ pingState = 1; }
-  if (cm > 10 && cm < 25){ pingState = 2; }
+  if (distance <= 10 ){ pingState = 1; }
+  if (distance > 10 && cm < 25){ pingState = 2; }
   
   return pingState;
 */  
@@ -273,5 +253,5 @@ void getPingState() {
 void loop() {
   //runREW();
   //measureRMP();
-  getPingState();
+  if (getPingState() == 1;
 }
