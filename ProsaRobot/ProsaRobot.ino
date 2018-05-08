@@ -34,8 +34,12 @@
 #define encoderInH 9 // input højre 
 
 // Pingben
-#define trigPin 7
-#define echoPin 6
+#define trigPin1 14
+#define echoPin1 15
+#define trigPin2 16
+#define echoPin2 17
+#define trigPin3 18
+#define echoPin3 19
 
 // Venstre motor benforbindelser
 #define MOTOR_L_PWM 11 // PIN D11 --> MOTOR B+ / PWM Speed (IA2) GUL
@@ -92,10 +96,12 @@ void setup() {
   pinMode(encoderInH, INPUT); //Sæt ben 9 som input
 
   // Init ping
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
-
-  
+  pinMode(trigPin1, OUTPUT);
+  pinMode(echoPin1, INPUT);
+  pinMode(trigPin2, OUTPUT);
+  pinMode(echoPin2, INPUT);
+  pinMode(trigPin3, OUTPUT);
+  pinMode(echoPin3, INPUT);  
 }
 
                                                   // INVERTER
@@ -226,7 +232,7 @@ void speed(int speedL, int speedR, int mDir) {
 
                                           //======================== PING STATE
 // function getPingState måler afstand og returnerer pingState
-int getPingState() {
+int getPingState(int trigPin, int echoPin) {
 //void getPingState() {
 
   long duration, distance;
@@ -243,15 +249,15 @@ int getPingState() {
   // evaluate to state
   pingState = 0;
   if (distance <= 10 ){ pingState = 1; }
-  if (distance > 10 && cm < 25){ pingState = 2; }
+  if (distance > 10 && distance < 25){ pingState = 2; }
   
-  return pingState;
-*/  
+  return pingState;  
 } // end function getPingState  
 
                                                   //MAIN
 void loop() {
   //runREW();
   //measureRMP();
-  if (getPingState() == 1;
+  //if (getPingState(trigPin1, echoPin1)) == 1;
+  getPingState(trigPin1, echoPin1);
 }
