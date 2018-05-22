@@ -35,9 +35,6 @@
  # # # # # #  #  # # # # #   #     # 
   #  # # # # ### # # ##  ### ### ##  
  */
-
-
-
                                         //=============== Benforbindelser
 // Sætter ben til hastighedssensorer 
 #define encoderInV 8 // input venstre
@@ -339,12 +336,12 @@ void loop() {
   measureRMP();
 
   if (getPingState(trigPin1, echoPin1)) == 1 {
-    //Stop og undersøg sider - evt bak
+    // Stop og undersøg sider - evt bak
     stopMotor(); 
     // look left
     if (getPingState(trigPin2, echoPin2)) == 1 {
       if (getPingState(trigPin3, echoPin3)) == 1 { 
-        //bak
+        // bak
         speed(PWM_SLOW, PWM_SLOW + bias, M_REVERSE);
       }
     } else {
