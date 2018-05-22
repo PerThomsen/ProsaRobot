@@ -24,10 +24,9 @@
  *  HASTIGHED
  *  PING STATE
  *  LOOP (Hovedprogram)
- *  
+ * 
+ * FIGlet Server: http://asciiset.com/figletserver.html
  */
-
-                                                  //=============== GLOBAL SETTINGS
 
 /*                                    
  # #  #  ##  ###  #  ##  #   ###  ## 
