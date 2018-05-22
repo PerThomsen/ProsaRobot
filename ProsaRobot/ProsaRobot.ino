@@ -28,6 +28,17 @@
  */
 
                                                   //=============== GLOBAL SETTINGS
+
+/*                                    
+ # #  #  ##  ###  #  ##  #   ###  ## 
+ # # # # # #  #  # # # # #   #   #   
+ # # ### ##   #  ### ##  #   ##   #  
+ # # # # # #  #  # # # # #   #     # 
+  #  # # # # ### # # ##  ### ### ##  
+ */
+
+
+
                                         //=============== Benforbindelser
 // Sætter ben til hastighedssensorer 
 #define encoderInV 8 // input venstre
@@ -74,7 +85,16 @@ int counterH;       // Tæller flanker fra højre encoder
 
 int pingState = 0;
 
-                                                   //=============== SETUP
+/*
+ *                     
+ ## ### ### # # ##  
+#   #    #  # # # # 
+ #  ##   #  # # ##  
+  # #    #  # # #   
+##  ###  #  ### #   
+ */
+
+
 void setup() {
   // Init forbindelse til seriel monitor
   Serial.begin( 9600 );
@@ -95,21 +115,35 @@ void setup() {
   pinMode(encoderInV, INPUT); //Sæt ben 8 som input
   pinMode(encoderInH, INPUT); //Sæt ben 9 som input
 
-  // Init ping
-  pinMode(trigPin1, OUTPUT);
+  // Init ping 1-3
+  pinMode(trigPin1, OUTPUT); // front
   pinMode(echoPin1, INPUT);
-  pinMode(trigPin2, OUTPUT);
+  pinMode(trigPin2, OUTPUT); // right
   pinMode(echoPin2, INPUT);
-  pinMode(trigPin3, OUTPUT);
+  pinMode(trigPin3, OUTPUT); // left
   pinMode(echoPin3, INPUT);  
 }
 
-                                                  // INVERTER
+/*
+### ### # # ### ##  ### 
+ #  # # # # #   # #  #  
+ #  # # # # ##  ##   #  
+ #  # # # # #   # #  #  
+### # #  #  ### # #  #  
+*/
 int invertOurValue(int input) {
   return 255 - input;
 }
 
-                                                  // RMP
+/*
+            
+##  # # ##  
+# # ### # # 
+##  ### ##  
+# # # # #   
+# # # # #   
+*/
+
 void measureRMP() { 
   // Aflæs omdrejninger (RPM Measurement)
   detectStateV=digitalRead(encoderInV);
@@ -160,7 +194,14 @@ void measureRMP() {
   }
 }
 
-                                                  // STOP MOTOR
+/*
+ ## ###  #  ##  
+#    #  # # # # 
+ #   #  # # ##  
+  #  #  # # #   
+##   #   #  #   
+
+*/
 void stopMotor() {
   // Altid stoppe motoren kortvarigt, for at gøre den klar til ændringer
   digitalWrite( MOTOR_L_DIR, LOW );
@@ -169,7 +210,13 @@ void stopMotor() {
   digitalWrite( MOTOR_R_PWM, LOW );
 }
 
-                                                  // KØR FORLÆNS
+/*
+### # # 
+#   # # 
+##  ### 
+#   ### 
+#   # # 
+*/
 void runFW(){
   // Kør forlæns
   // stopMotor();
@@ -177,7 +224,13 @@ void runFW(){
   speed(PWM_FAST, PWM_FAST + bias, M_FORWARD);
 }
 
-                                                  // KØR BAGLÆNS
+/*
+##  ### # # 
+# # #   # # 
+##  ##  ### 
+# # #   ### 
+# # ### # # 
+*/
 void runREW(){
   // Kør baglæns
   // stopMotor();
@@ -185,7 +238,13 @@ void runREW(){
   speed(PWM_FAST, PWM_FAST + bias, M_REVERSE);
 }
 
-                                                  // TURN LR
+/*
+#     # ##  
+#     # # # 
+#    #  ##  
+#   #   # # 
+### #   # # 
+*/
 void turnLR() {
   // Turn left or right
   // Der skal modtages 2 parametre
@@ -207,7 +266,13 @@ void turnLR() {
   }  
 }
 
-                                                  // SPIN LR
+/*
+ ## ##  ### ### 
+#   # #  #  # # 
+ #  ##   #  # # 
+  # #    #  # # 
+##  #   ### # # 
+*/
 void spin() {
   // Spin left or right
   // Der skal modtages 1 parameter (L/R)
@@ -216,7 +281,13 @@ void spin() {
   // digitalWrite( MOTOR_R_DIR, M_REVERSE );    
 }
 
-                                                  // HASTIGHED
+/*
+ ## ##  ### ### ##  
+#   # # #   #   # # 
+ #  ##  ##  ##  # # 
+  # #   #   #   # # 
+##  #   ### ### ##  
+*/
 void speed(int speedL, int speedR, int mDir) {
   if (mDir == HIGH) {
     //Hvis baglæns
@@ -230,7 +301,13 @@ void speed(int speedL, int speedR, int mDir) {
   analogWrite( MOTOR_R_PWM, speedR );           
 }
 
-                                          //======================== PING STATE
+/*
+##  ### ###  ## 
+# #  #  # # #   
+##   #  # # # # 
+#    #  # # # # 
+#   ### # #  ## 
+*/
 // function getPingState måler afstand og returnerer pingState
 int getPingState(int trigPin, int echoPin) {
 //void getPingState() {
@@ -243,8 +320,8 @@ int getPingState(int trigPin, int echoPin) {
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance = (duration/2) / 29.1;
-  Serial.print(distance);
-  Serial.println(" cm");
+  //Serial.print(distance);
+  //Serial.println(" cm");
 
   // evaluate to state
   pingState = 0;
@@ -254,10 +331,26 @@ int getPingState(int trigPin, int echoPin) {
   return pingState;  
 } // end function getPingState  
 
-                                                  //MAIN
+/*
+# #  #  ### ### 
+### # #  #  # # 
+### ###  #  # # 
+# # # #  #  # # 
+# # # # ### # # 
+*/
 void loop() {
   //runREW();
   //measureRMP();
-  //if (getPingState(trigPin1, echoPin1)) == 1;
-  getPingState(trigPin1, echoPin1);
-}
+  if (getPingState(trigPin1, echoPin1)) == 1 {
+    //Stop og undersøg sider - evt bak
+    stopMotor(); 
+    // look left
+    if (getPingState(trigPin2, echoPin2)) == 1 {
+      if (getPingState(trigPin3, echoPin3)) == 1 { 
+        //bak
+      }
+    }
+  } elseif (getPingState(trigPin1, echoPin1)) == 2 {
+    // sænk farten
+  }
+ }
