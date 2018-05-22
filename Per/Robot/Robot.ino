@@ -82,7 +82,6 @@ int counterH;       // Tæller flanker fra højre encoder
 int pingState = 0;
 
 /*
- *                     
  ## ### ### # # ##  
 #   #    #  # # # # 
  #  ##   #  # # ##  
@@ -337,11 +336,13 @@ void loop() {
 
   if (getPingState(trigPin1, echoPin1)) == 1 {
     // Stop og undersøg sider - evt bak
-    stopMotor(); 
+    stopMotor();
+    Serial.println("STOP"); 
     // look left
     if (getPingState(trigPin2, echoPin2)) == 1 {
       if (getPingState(trigPin3, echoPin3)) == 1 { 
         // bak
+        Serial.println("REVERSE (slow)");
         speed(PWM_SLOW, PWM_SLOW + bias, M_REVERSE);
       }
     } else {
@@ -349,6 +350,7 @@ void loop() {
     }
   } elseif (getPingState(trigPin1, echoPin1)) == 2 {
     // sænk farten
+    Serial.println("FORWARD (mid)");
     speed(PWM_MID, PWM_MID + bias, M_FORWARD);
   }
  }
