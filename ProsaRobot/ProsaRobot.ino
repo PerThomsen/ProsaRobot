@@ -92,8 +92,6 @@ int pingState = 0;
   # #    #  # # #   
 ##  ###  #  ### #   
  */
-
-
 void setup() {
   // Init forbindelse til seriel monitor
   Serial.begin( 9600 );
@@ -142,7 +140,6 @@ int invertOurValue(int input) {
 # # # # #   
 # # # # #   
 */
-
 void measureRMP() { 
   // Aflæs omdrejninger (RPM Measurement)
   detectStateV=digitalRead(encoderInV);
@@ -199,7 +196,6 @@ void measureRMP() {
  #   #  # # ##  
   #  #  # # #   
 ##   #   #  #   
-
 */
 void stopMotor() {
   // Altid stoppe motoren kortvarigt, for at gøre den klar til ændringer
@@ -309,8 +305,6 @@ void speed(int speedL, int speedR, int mDir) {
 */
 // function getPingState måler afstand og returnerer pingState
 int getPingState(int trigPin, int echoPin) {
-//void getPingState() {
-
   long duration, distance;
   digitalWrite(trigPin, LOW);  // Added this line
   delayMicroseconds(2); // Added this line
@@ -338,8 +332,12 @@ int getPingState(int trigPin, int echoPin) {
 # # # # ### # # 
 */
 void loop() {
-  //runREW();
-  //measureRMP();
+  //Kør forlæns
+  speed(PWM_FAST, PWM_FAST + bias, M_FORWARD);
+  
+  //Check hastighed
+  measureRMP();
+
   if (getPingState(trigPin1, echoPin1)) == 1 {
     //Stop og undersøg sider - evt bak
     stopMotor(); 
@@ -347,9 +345,13 @@ void loop() {
     if (getPingState(trigPin2, echoPin2)) == 1 {
       if (getPingState(trigPin3, echoPin3)) == 1 { 
         //bak
+        speed(PWM_SLOW, PWM_SLOW + bias, M_REVERSE);
       }
+    } else {
+      speed(PWM_MID, PWM_MID + bias, M_FORWARD);
     }
   } elseif (getPingState(trigPin1, echoPin1)) == 2 {
     // sænk farten
+    speed(PWM_MID, PWM_MID + bias, M_FORWARD);
   }
  }
