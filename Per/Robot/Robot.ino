@@ -47,6 +47,7 @@
 #define echoPin2 17
 #define trigPin3 18
 #define echoPin3 19
+#define pingTimeout 20
 
 // Venstre motor benforbindelser
 #define MOTOR_L_PWM 11 // PIN D11 --> MOTOR B+ / PWM Speed (IA2) GUL
@@ -307,7 +308,7 @@ int getPingState(int trigPin, int echoPin) {
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10); // Added this line
   digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH);
+  duration = pulseIn(echoPin, HIGH, pingTimeout);
   distance = (duration/2) / 29.1;
   //Serial.print(distance);
   //Serial.println(" cm");
@@ -334,13 +335,13 @@ void loop() {
   //Check hastighed
   measureRMP();
 
-  if (getPingState(trigPin1, echoPin1)) == 1 {
+  if ((getPingState(trigPin1, echoPin1)) == 1) {
     // Stop og undersøg sider - evt bak
     stopMotor();
     Serial.println("STOP"); 
     // look left
-    if (getPingState(trigPin2, echoPin2)) == 1 {
-      if (getPingState(trigPin3, echoPin3)) == 1 { 
+    if ((getPingState(trigPin2, echoPin2)) == 1) {
+      if ((getPingState(trigPin3, echoPin3)) == 1) { 
         // bak
         Serial.println("REVERSE (slow)");
         speed(PWM_SLOW, PWM_SLOW + bias, M_REVERSE);
@@ -348,7 +349,7 @@ void loop() {
     } else {
       speed(PWM_MID, PWM_MID + bias, M_FORWARD);
     }
-  } elseif (getPingState(trigPin1, echoPin1)) == 2 {
+  } else if ((getPingState(trigPin1, echoPin1)) == 2) {
     // sænk farten
     Serial.println("FORWARD (mid)");
     speed(PWM_MID, PWM_MID + bias, M_FORWARD);
