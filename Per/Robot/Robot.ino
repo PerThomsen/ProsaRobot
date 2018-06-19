@@ -47,7 +47,7 @@
 #define echoPin2 17
 #define trigPin3 18
 #define echoPin3 19
-#define pingTimeout 20
+#define pingTimeout 5000
 
 // Venstre motor benforbindelser
 #define MOTOR_L_PWM 11 // PIN D11 --> MOTOR B+ / PWM Speed (IA2) GUL
@@ -312,7 +312,7 @@ int getPingState(int trigPin, int echoPin) {
   distance = (duration/2) / 29.1;
   //Serial.print(distance);
   //Serial.println(" cm");
-
+  
   // evaluate to state      
   if (distance > 0 && distance <= 10 ){ 
     pingState = 2; 
@@ -334,30 +334,35 @@ int getPingState(int trigPin, int echoPin) {
 */
 void loop() {
   //Kør forlæns
-  speed(PWM_FAST, PWM_FAST + bias, M_FORWARD);
+  //speed(PWM_FAST, PWM_FAST + bias, M_FORWARD);
   
   //Check hastighed
-  measureRMP();
+  //measureRMP();
 
   if ((getPingState(trigPin1, echoPin1)) == 2) {
     // Stop og undersøg sider - evt bak
     //stopMotor();
     Serial.println("STOP"); 
-    /*
+    
     // look left
-    if ((getPingState(trigPin2, echoPin2)) == 1) {
-      if ((getPingState(trigPin3, echoPin3)) == 1) { 
+    if ((getPingState(trigPin2, echoPin2)) == 2) {
+      if ((getPingState(trigPin3, echoPin3)) == 2) { 
         // bak
         Serial.println("REVERSE (slow)");
-        speed(PWM_SLOW, PWM_SLOW + bias, M_REVERSE);
+        //speed(PWM_SLOW, PWM_SLOW + bias, M_REVERSE);
+      } else {
+        Serial.println("xxxx");
       }
     } else {
-      speed(PWM_MID, PWM_MID + bias, M_FORWARD);
+      Serial.println("Turn right");
+      //speed(PWM_MID, PWM_MID + bias, M_FORWARD);
     }
-    */
+    
   } else if ((getPingState(trigPin1, echoPin1)) == 1) {
     // sænk farten
     Serial.println("FORWARD (mid)");
     //speed(PWM_MID, PWM_MID + bias, M_FORWARD);
-  }
+  } else {
+    Serial.println("FF");
+  } 
  }
