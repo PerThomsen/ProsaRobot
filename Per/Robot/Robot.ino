@@ -313,11 +313,15 @@ int getPingState(int trigPin, int echoPin) {
   //Serial.print(distance);
   //Serial.println(" cm");
 
-  // evaluate to state
-  pingState = 0;
-  if (distance <= 10 ){ pingState = 1; }
-  if (distance > 10 && distance < 25){ pingState = 2; }
-  
+  // evaluate to state      
+  if (distance > 0 && distance <= 10 ){ 
+    pingState = 2; 
+  } else if (distance > 10 && distance < 25){ 
+    pingState = 1; 
+  } else {
+    pingState = 0;
+  }
+  //Serial.println(pingState);
   return pingState;  
 } // end function getPingState  
 
@@ -335,10 +339,11 @@ void loop() {
   //Check hastighed
   measureRMP();
 
-  if ((getPingState(trigPin1, echoPin1)) == 1) {
+  if ((getPingState(trigPin1, echoPin1)) == 2) {
     // Stop og undersøg sider - evt bak
-    stopMotor();
+    //stopMotor();
     Serial.println("STOP"); 
+    /*
     // look left
     if ((getPingState(trigPin2, echoPin2)) == 1) {
       if ((getPingState(trigPin3, echoPin3)) == 1) { 
@@ -349,9 +354,10 @@ void loop() {
     } else {
       speed(PWM_MID, PWM_MID + bias, M_FORWARD);
     }
-  } else if ((getPingState(trigPin1, echoPin1)) == 2) {
+    */
+  } else if ((getPingState(trigPin1, echoPin1)) == 1) {
     // sænk farten
     Serial.println("FORWARD (mid)");
-    speed(PWM_MID, PWM_MID + bias, M_FORWARD);
+    //speed(PWM_MID, PWM_MID + bias, M_FORWARD);
   }
  }
