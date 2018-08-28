@@ -51,7 +51,7 @@
 
 // Venstre motor benforbindelser
 #define MOTOR_L_PWM 11 // PIN D11 --> MOTOR B+ / PWM Speed (IA2) GUL
-#define MOTOR_L_DIR 7 // PIN D13 --> MOTOR B  / Retning (IB2) ORANGE
+#define MOTOR_L_DIR 7 // PIN D7 --> MOTOR B  / Retning (IB2) ORANGE
 // Højre motor benforbindelser
 #define MOTOR_R_PWM 10 // PIN D10 --> MOTOR B+ / PWM Speed (IA1) GRÅ
 #define MOTOR_R_DIR 12 // PIN D12 --> MOTOR B  / Retning (IB1) HVID
