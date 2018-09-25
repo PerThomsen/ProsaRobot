@@ -325,6 +325,18 @@ int getPingState(int trigPin, int echoPin) {
   return pingState;  
 } // end function getPingState  
 
+void checkFrontDistance() {
+  getPingState(trigMid, echoMid)
+}
+
+void checkLeftDistance() {
+  getPingState(trigLeft, echoLeft)
+}
+
+void checkRightDistance() {
+  getPingState(trigRight, echoRight)
+}
+
 /*
 # #  #  ### ### 
 ### # #  #  # # 
@@ -340,18 +352,19 @@ void loop() {
   //measureRMP();
 
   if ((getPingState(trigMid, echoMid)) == 2) {
-    // Stop og undersøg sider - evt bak
+    // Stop og unde rsøg sider - evt bak
     //stopMotor();
     Serial.println("STOP"); 
     
     // look left
     if ((getPingState(trigLeft, echoLeft)) == 2) {
+      // look right
       if ((getPingState(trigRight, echoRight)) == 2) { 
         // bak
         Serial.println("REVERSE (slow)");
         //speed(PWM_SLOW, PWM_SLOW + bias, M_REVERSE);
       } else {
-        Serial.println("xxxx");
+        Serial.println("Turn right");
       }
     } else {
       Serial.println("Turn right");
