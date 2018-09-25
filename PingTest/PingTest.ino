@@ -72,6 +72,6 @@ void loop() {
     Serial.println("FORWARD (mid)");
     //speed(PWM_MID, PWM_MID + bias, M_FORWARD);
   } else {
-    Serial.println("FF");
+    Serial.println("FAST FORWARD");
   }
  }
