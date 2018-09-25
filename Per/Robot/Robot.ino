@@ -41,12 +41,12 @@
 #define encoderInH 9 // input højre 
 
 // Pingben
-#define trigPin1 14
-#define echoPin1 15
-#define trigPin2 16
-#define echoPin2 17
-#define trigPin3 18
-#define echoPin3 19
+#define trigLeft 14  //A0 
+#define echoLeft 15  //A1 
+#define trigMid 16   //A2 
+#define echoMid 17   //A3 
+#define trigRight 18 //A4 
+#define echoRight 19 //A5 
 #define pingTimeout 5000
 
 // Venstre motor benforbindelser
@@ -110,12 +110,12 @@ void setup() {
   pinMode(encoderInH, INPUT); //Sæt ben 9 som input
 
   // Init ping 1-3
-  pinMode(trigPin1, OUTPUT); // front
-  pinMode(echoPin1, INPUT);
-  pinMode(trigPin2, OUTPUT); // right
-  pinMode(echoPin2, INPUT);
-  pinMode(trigPin3, OUTPUT); // left
-  pinMode(echoPin3, INPUT);  
+  pinMode(trigLeft, OUTPUT); // front
+  pinMode(echoLeft, INPUT);
+  pinMode(trigMid, OUTPUT); // right
+  pinMode(echoMid, INPUT);
+  pinMode(trigRight, OUTPUT); // left
+  pinMode(echoRight, INPUT);  
 }
 
 /*
@@ -339,14 +339,14 @@ void loop() {
   //Check hastighed
   //measureRMP();
 
-  if ((getPingState(trigPin1, echoPin1)) == 2) {
+  if ((getPingState(trigMid, echoMid)) == 2) {
     // Stop og undersøg sider - evt bak
     //stopMotor();
     Serial.println("STOP"); 
     
     // look left
-    if ((getPingState(trigPin2, echoPin2)) == 2) {
-      if ((getPingState(trigPin3, echoPin3)) == 2) { 
+    if ((getPingState(trigLeft, echoLeft)) == 2) {
+      if ((getPingState(trigRight, echoRight)) == 2) { 
         // bak
         Serial.println("REVERSE (slow)");
         //speed(PWM_SLOW, PWM_SLOW + bias, M_REVERSE);
@@ -358,7 +358,7 @@ void loop() {
       //speed(PWM_MID, PWM_MID + bias, M_FORWARD);
     }
     
-  } else if ((getPingState(trigPin1, echoPin1)) == 1) {
+  } else if ((getPingState(trigMid, echoMid)) == 1) {
     // sænk farten
     Serial.println("FORWARD (mid)");
     //speed(PWM_MID, PWM_MID + bias, M_FORWARD);
