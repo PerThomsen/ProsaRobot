@@ -326,15 +326,15 @@ int getPingState(int trigPin, int echoPin) {
 } // end function getPingState  
 
 void checkFrontDistance() {
-  getPingState(trigMid, echoMid)
+  getPingState(trigMid, echoMid);
 }
 
 void checkLeftDistance() {
-  getPingState(trigLeft, echoLeft)
+  getPingState(trigLeft, echoLeft);
 }
 
 void checkRightDistance() {
-  getPingState(trigRight, echoRight)
+  getPingState(trigRight, echoRight);
 }
 
 /*
@@ -352,7 +352,7 @@ void loop() {
   //measureRMP();
 
   if ((getPingState(trigMid, echoMid)) == 2) {
-    // Stop og unde rsøg sider - evt bak
+    // Stop og undersøg sider - evt bak
     //stopMotor();
     Serial.println("STOP"); 
     
@@ -371,11 +371,13 @@ void loop() {
       //speed(PWM_MID, PWM_MID + bias, M_FORWARD);
     }
     
-  } else if ((getPingState(trigMid, echoMid)) == 1) {
+  } 
+  if ((getPingState(trigMid, echoMid)) == 1) {
     // sænk farten
     Serial.println("FORWARD (mid)");
     //speed(PWM_MID, PWM_MID + bias, M_FORWARD);
-  } else {
+  } 
+  if ((getPingState(trigMid, echoMid)) == 0) {
     Serial.println("FF");
   } 
  }
